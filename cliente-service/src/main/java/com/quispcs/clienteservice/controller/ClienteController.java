@@ -19,6 +19,10 @@ import java.util.List;
 public class ClienteController {
     @Autowired
     ClienteService clienteService;
+    @GetMapping()
+    public List<Cliente> listar() {
+        return clienteService.listar();
+    }
     @GetMapping(value = "/{id}")
     public ResponseEntity<Cliente> getCliente(@PathVariable("id") long id) {
         log.info("Obtener cliente por id {}", id);
@@ -30,8 +34,8 @@ public class ClienteController {
         return  ResponseEntity.ok(cliente);
     }
     @PostMapping
-    public ResponseEntity<Cliente> createCustomer(@Valid @RequestBody Cliente cliente, BindingResult result) {
-        log.info("Creating Customer : {}", cliente);
+    public ResponseEntity<Cliente> createCliente(@Valid @RequestBody Cliente cliente, BindingResult result) {
+        log.info("Creando Cliente : {}", cliente);
 
         Cliente clienteDB = clienteService.createCliente (cliente);
 

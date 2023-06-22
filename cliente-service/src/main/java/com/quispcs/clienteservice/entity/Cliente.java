@@ -15,7 +15,5 @@ public class Cliente {
     private String apellidos;
     @Column(unique=true, nullable=false)
     private String email;
-    @Column(name="foto_url")
-    private String fotoUrl;
     private String estado;
 }

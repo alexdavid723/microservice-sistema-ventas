@@ -20,6 +20,7 @@ import java.util.List;
 public class ProductoController {
     @Autowired
     private ProductoService productoService ;
+
     @GetMapping
     //Filtro de producto por categoria id (categoryId)
     public ResponseEntity<List<Producto>> listProducto(@RequestParam(name ="categoryId",required = false)Long categoryId){

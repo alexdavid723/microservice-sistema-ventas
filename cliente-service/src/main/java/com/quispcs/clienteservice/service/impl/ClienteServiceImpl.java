@@ -15,14 +15,14 @@ public class ClienteServiceImpl implements ClienteService{
     @Autowired
     ClienteRepository clienteRepository;
     @Override
-    public List<Cliente> findClienteAll() {
+    public List<Cliente> listar() {
         return clienteRepository.findAll();
     }
 
     @Override
     public Cliente createCliente(Cliente cliente) {
 
-        Cliente clienteDB = clienteRepository.findBydni ( cliente.getDni () );
+        Cliente clienteDB = clienteRepository.findBydni(cliente.getDni () );
         if (clienteDB != null){
             return  clienteDB;
         }
@@ -41,7 +41,6 @@ public class ClienteServiceImpl implements ClienteService{
         clienteDB.setNombres(cliente.getNombres());
         clienteDB.setApellidos(cliente.getApellidos());
         clienteDB.setEmail(cliente.getEmail());
-        clienteDB.setFotoUrl(cliente.getFotoUrl());
 
         return  clienteRepository.save(clienteDB);
     }
