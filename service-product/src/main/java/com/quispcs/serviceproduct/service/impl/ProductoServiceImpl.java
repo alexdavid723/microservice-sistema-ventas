@@ -11,8 +11,9 @@ import java.util.Date;
 import java.util.List;
 @Service
 public class ProductoServiceImpl implements ProductoService {
-    @Autowired
-    private ProductoRepository productoRepository;
+
+    @Autowired//inyectamos las dependencias
+    private ProductoRepository productoRepository;//importar nuestro repositorio
     @Override
     public List<Producto> listAllProducto() {
         return productoRepository.findAll();
