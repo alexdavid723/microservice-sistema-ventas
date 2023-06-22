@@ -2,6 +2,7 @@ package com.quispcs.serviceproduct.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.util.Date;
@@ -24,6 +25,7 @@ public class Producto {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createAt;
     //para mapear usamos many to one  osea una categoria tiene muchos productos
+    @NotNull(message = "La categoria no puede ser vacia")
     @ManyToOne(fetch = FetchType.LAZY)
     //usamos fetchtype.lazy paracargar valore en un momento que es requerido
 

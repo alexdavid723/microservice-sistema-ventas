@@ -50,7 +50,10 @@ public class ProductoController {
     }
     //post para crear un nuevo producto
     @PostMapping
-    public ResponseEntity<Producto> createProducto(@RequestBody Producto producto){
+    public ResponseEntity<Producto> createProducto(@Valid @RequestBody Producto producto, BindingResult result){
+        //if (result.hasErrors()){
+        //    throw new ResponseStatusException()
+       // }
         Producto productoCreate =  productoService.createProducto(producto);
         return ResponseEntity.status(HttpStatus.CREATED).body(productoCreate);
     }
