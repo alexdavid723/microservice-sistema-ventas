@@ -17,8 +17,8 @@ public class Venta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "Numero de factura")
-    private String NumeroVenta;
+    @Column(name = "Numero de venta")
+    private String numeroVenta;
 
     private String descripcion;
 
@@ -28,19 +28,15 @@ public class Venta {
     @Column(name = "create_at")
     @Temporal(TemporalType.DATE)
     private Date createAt;
-
-
-
-    @Valid
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "detalle_id")
-    private List<Detalle> detalles;
+    private List<Detalle> detalle;
 
     private String estado;
 
     public Venta(){
-        detalles = new ArrayList<>();
+        detalle = new ArrayList<>();
     }
 
     @PrePersist

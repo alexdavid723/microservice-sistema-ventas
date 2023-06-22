@@ -12,7 +12,7 @@ public class Detalle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Positive(message = "El stock debe ser mayor que cero")
+    @Positive(message = "mayor a cero")
     private Double cantidad;
     private Double  precio;
     @Column(name = "producto_id")

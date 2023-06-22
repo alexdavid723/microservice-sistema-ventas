@@ -45,8 +45,8 @@ public class VentaServiceImpl implements VentaService {
         ventaDB.setClienteId(venta.getClienteId());
         ventaDB.setDescripcion(venta.getDescripcion());
         ventaDB.setNumeroVenta(venta.getNumeroVenta());
-        ventaDB.getDetalles().clear();
-        ventaDB.setDetalles(venta.getDetalles());
+        ventaDB.getDetalle().clear();
+        ventaDB.setDetalle(venta.getDetalle());
         return ventaRepository.save(ventaDB);
     }
 
