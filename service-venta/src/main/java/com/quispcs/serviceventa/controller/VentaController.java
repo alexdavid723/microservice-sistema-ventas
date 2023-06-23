@@ -1,7 +1,9 @@
 package com.quispcs.serviceventa.controller;
 
 import com.quispcs.serviceventa.entity.Venta;
+import com.quispcs.serviceventa.model.Cliente;
 import com.quispcs.serviceventa.service.VentaService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,7 @@ public class VentaController {
         }
         return  ResponseEntity.ok(ventas);
     }
+    @CircuitBreaker(name="clienteCB", fallbackMethod = "fallbackgetClientes")
     @GetMapping(value = "/{id}")
     public ResponseEntity<Venta> getVenta(@PathVariable("id") long id) {
         log.info("ventas con id {}", id);
@@ -38,6 +41,7 @@ public class VentaController {
         }
         return  ResponseEntity.ok(venta);
     }
+    @CircuitBreaker(name="clienteCB", fallbackMethod = "fallbacksaveClientes")
     @PostMapping
     public ResponseEntity<Venta> createVenta(@Valid @RequestBody Venta venta, BindingResult result) {
         log.info("creando venta : {}", venta);
@@ -73,6 +77,13 @@ public class VentaController {
         venta = ventaService.deleteVenta(venta);
         return ResponseEntity.ok(venta);
     }
+    private ResponseEntity <List<Cliente>> fallbackgetClientes(@PathVariable("ventaid")int id ,RuntimeException exception){
+        return new ResponseEntity("La venta : "+id+"tiene los clientes fuera de servicio",HttpStatus.OK);
 
+    }
+    private ResponseEntity <List<Cliente>> fallbacksaveClientes(@PathVariable("ventaid")int id ,@RequestBody Cliente cliente,RuntimeException exception){
+        return new ResponseEntity("La venta : "+id+ "no cuenta con los clientes activos ",HttpStatus.OK);
+
+    }
 
 }
