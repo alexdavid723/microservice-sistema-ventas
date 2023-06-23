@@ -18,15 +18,14 @@ eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 #habilitar endpoints de actuator para trabajar con relilience
-resilience4j.circuitbreaker:
-  instances:
-    clienteCB:
-      registerHealthIndicator: true
-      slidingWindowSize: 10
-      permittedNumberOfCallsInHalfOpenState: 3
-      slidingWindowType: TIME_BASED
-      minimumNumberOfCalls: 4
-      waitDurationInOpenState: 5s
-      failureRateThreshold: 50
-      eventConsumerBufferSize: 10
+resilience4j:
+  circuitbreaker:
+    configs:
+      myCircuitBreakerConfig:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5000
+    instances:
+      myCircuitBreaker:
+        baseConfig: myCircuitBreakerConfig
 
