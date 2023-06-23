@@ -1,6 +1,11 @@
 package com.quispcs.serviceventa.service.impl;
 
+import com.quispcs.serviceventa.entity.Detalle;
 import com.quispcs.serviceventa.entity.Venta;
+import com.quispcs.serviceventa.feign.ClienteFeign;
+import com.quispcs.serviceventa.feign.ProductoFeign;
+import com.quispcs.serviceventa.model.Cliente;
+import com.quispcs.serviceventa.model.Producto;
 import com.quispcs.serviceventa.repository.DetalleRepository;
 import com.quispcs.serviceventa.repository.VentaRepository;
 import com.quispcs.serviceventa.service.VentaService;
@@ -9,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -18,6 +24,10 @@ public class VentaServiceImpl implements VentaService {
 
     @Autowired
     DetalleRepository detalleRepository;
+    @Autowired
+    ClienteFeign clienteFeign;
+    @Autowired
+    ProductoFeign productoFeign;
 
     @Override
     public List<Venta> findVentaAll() {
@@ -32,7 +42,12 @@ public class VentaServiceImpl implements VentaService {
             return  ventaDB;
         }
         venta.setEstado("CREATED");
-        return ventaRepository.save(venta);
+        ventaDB = ventaRepository.save(venta);
+        ventaDB.getDetalle().forEach(detalle -> {
+            productoFeign.updateStockProducto(detalle.getProductoId(), detalle.getCantidad() * -1);
+        });
+
+        return ventaDB;
     }
 
 
@@ -63,6 +78,17 @@ public class VentaServiceImpl implements VentaService {
 
     @Override
     public Venta getVenta(Long id) {
-        return ventaRepository.findById(id).orElse(null);
+        Venta venta= ventaRepository.findById(id).orElse(null);
+        if (null != venta ){
+            Cliente cliente = clienteFeign.getCliente(venta.getClienteId()).getBody();
+            venta.setCliente(cliente);
+            List<Detalle> listDetalle=venta.getDetalle().stream().map(detalle -> {
+                Producto producto = productoFeign.getProduct(detalle.getProductoId()).getBody();
+                detalle.setProducto(producto);
+                return detalle;
+            }).collect(Collectors.toList());
+            venta.setDetalle(listDetalle);
+        }
+        return venta ;
     }
 }

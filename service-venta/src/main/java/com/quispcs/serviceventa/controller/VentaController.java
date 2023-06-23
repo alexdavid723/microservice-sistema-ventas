@@ -61,7 +61,6 @@ public class VentaController {
         return  ResponseEntity.ok(currentVenta);
     }
 
-    // ------------------- Delete a Invoice-----------------------------------------
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Venta> deleteVenta(@PathVariable("id") long id) {
         log.info("eliminando venta con id: {}", id);

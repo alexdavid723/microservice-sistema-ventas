@@ -1,5 +1,6 @@
 package com.quispcs.serviceventa.entity;
 
+import com.quispcs.serviceventa.model.Producto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
@@ -21,6 +22,8 @@ public class Detalle {
 
     @Transient
     private Double Total;
+    @Transient
+    private Producto producto;
 
 
     public Double getTotal(){

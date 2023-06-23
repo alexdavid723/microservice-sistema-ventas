@@ -1,6 +1,7 @@
 package com.quispcs.serviceventa.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.quispcs.serviceventa.model.Cliente;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.Data;
@@ -34,6 +35,8 @@ public class Venta {
     private List<Detalle> detalle;
 
     private String estado;
+    @Transient
+    private Cliente cliente;
 
     public Venta(){
         detalle = new ArrayList<>();
