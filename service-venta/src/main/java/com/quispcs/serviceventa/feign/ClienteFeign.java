@@ -8,9 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "Cliente-Service")
+@FeignClient(name = "Cliente-Service", path = "/clientes")
 public interface ClienteFeign {
-    @GetMapping("/clientes/{id}")
+    @GetMapping("/{id}")
     @CircuitBreaker(name = "myCircuitBreaker", fallbackMethod = "fallbackGetCliente")
     ResponseEntity<Cliente> getCliente(@PathVariable("id") long id);
 
