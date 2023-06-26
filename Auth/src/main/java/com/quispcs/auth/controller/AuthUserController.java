@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 public class AuthUserController {
     @Autowired
     AuthUserService authUserService;
-
     @PostMapping("/login")
     public ResponseEntity<TokenDto> login(@RequestBody AuthUserDto authUserDto) {
         TokenDto tokenDto = authUserService.login(authUserDto);
