@@ -1,10 +1,10 @@
-package com.example.adminserver;
+package com.quispcs.adminservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class AdminServerApplicationTests {
+class AdminServiceApplicationTests {
 
 	@Test
 	void contextLoads() {
