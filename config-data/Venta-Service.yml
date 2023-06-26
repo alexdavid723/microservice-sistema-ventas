@@ -36,4 +36,10 @@ resilience4j:
     instances:
       myCircuitBreaker:
         baseConfig: myCircuitBreakerConfig
+springdoc:
+  api-doc:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /doc/swagger-ui.html
 
