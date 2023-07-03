@@ -12,60 +12,37 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
-@Slf4j
 @RestController
-@RequestMapping("/clientes")
+@RequestMapping("/cliente")
 public class ClienteController {
     @Autowired
-    ClienteService clienteService;
+    private ClienteService clienteService;
     @GetMapping()
-    public List<Cliente> listar() {
-        return clienteService.listar();
+    public ResponseEntity<List<Cliente>> list() {
+        return ResponseEntity.ok().body(clienteService.list());
     }
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<Cliente> getCliente(@PathVariable("id") long id) {
-        log.info("Obtener cliente por id {}", id);
-        Cliente cliente = clienteService.getCliente(id);
-        if (  null == cliente) {
-            log.error("cliente con id {} no encontrado.", id);
-            return  ResponseEntity.notFound().build();
-        }
-        return  ResponseEntity.ok(cliente);
+
+    @PostMapping()
+    public ResponseEntity<Cliente> save(@RequestBody Cliente cliente) {
+        return ResponseEntity.ok(clienteService.save(cliente));
     }
-    @PostMapping
-    public ResponseEntity<Cliente> createCliente(@Valid @RequestBody Cliente cliente, BindingResult result) {
-        log.info("Creando Cliente : {}", cliente);
 
-        Cliente clienteDB = clienteService.createCliente (cliente);
-
-        return  ResponseEntity.status( HttpStatus.CREATED).body(clienteDB);
+    @PutMapping()
+    public ResponseEntity<Cliente> update(@RequestBody Cliente cliente) {
+        return ResponseEntity.ok(clienteService.update(cliente));
     }
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<?> updateCustomer(@PathVariable("id") long id, @RequestBody Cliente cliente) {
-        log.info("editando cliente con id {}", id);
 
-        Cliente currentCliente = clienteService.getCliente(id);
-
-        if ( null == currentCliente ) {
-            log.error("cliente con id {} no encontrado.", id);
-            return  ResponseEntity.notFound().build();
-        }
-        cliente.setId(id);
-        currentCliente=clienteService.updateCliente(cliente);
-        return  ResponseEntity.ok(currentCliente);
+    @GetMapping("/{id}")
+    public ResponseEntity<Cliente> listById(@PathVariable(required = true) Integer id) {
+        return ResponseEntity.ok().body(clienteService.listById(id).get());
     }
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Cliente> deleteCliente(@PathVariable("id") long id) {
-        log.info("Eliminando cliente con id: {}", id);
 
-        Cliente cliente = clienteService.getCliente(id);
-        if ( null == cliente ) {
-            log.error("no se pudo eliminar, cliente con id {} no encontrado", id);
-            return  ResponseEntity.notFound().build();
-        }
-        cliente = clienteService.deleteCliente(cliente);
-        return  ResponseEntity.ok(cliente);
+    @DeleteMapping("/{id}")
+    public String deleteById(@PathVariable(required = true) Integer id) {
+        clienteService.deleteById(id);
+        return "";
     }
 
 }

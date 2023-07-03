@@ -8,55 +8,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
-@Slf4j
 @Service
 public class ClienteServiceImpl implements ClienteService{
     @Autowired
-    ClienteRepository clienteRepository;
+    private ClienteRepository clienteRepository;
+
     @Override
-    public List<Cliente> listar() {
+    public List<Cliente> list() {
         return clienteRepository.findAll();
     }
 
     @Override
-    public Cliente createCliente(Cliente cliente) {
-
-        Cliente clienteDB = clienteRepository.findBydni(cliente.getDni () );
-        if (clienteDB != null){
-            return  clienteDB;
-        }
-
-        cliente.setEstado("CREATED");
-        clienteDB = clienteRepository.save ( cliente );
-        return clienteDB;
-    }
-
-    @Override
-    public Cliente updateCliente(Cliente cliente) {
-        Cliente clienteDB = getCliente(cliente.getId());
-        if (clienteDB == null){
-            return  null;
-        }
-        clienteDB.setNombres(cliente.getNombres());
-        clienteDB.setApellidos(cliente.getApellidos());
-        clienteDB.setEmail(cliente.getEmail());
-
-        return  clienteRepository.save(clienteDB);
-    }
-
-    @Override
-    public Cliente deleteCliente(Cliente cliente) {
-        Cliente clienteDB = getCliente(cliente.getId());
-        if (clienteDB ==null){
-            return  null;
-        }
-        cliente.setEstado("DELETED");
+    public Cliente save(Cliente cliente) {
         return clienteRepository.save(cliente);
     }
 
     @Override
-    public Cliente getCliente(Long id) {
-        return  clienteRepository.findById(id).orElse(null);
+    public Cliente update(Cliente cliente) {
+        return clienteRepository.save(cliente);
+    }
+
+    @Override
+    public Optional<Cliente> listById(Integer id) {
+        return clienteRepository.findById(id);
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        clienteRepository.deleteById(id);
     }
 }
