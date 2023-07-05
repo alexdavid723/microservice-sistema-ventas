@@ -10,7 +10,7 @@ spring:
   security:
     user:
       name: root
-      password: 
+      password: s3cr3t
 management:
   endpoints:
     web:
