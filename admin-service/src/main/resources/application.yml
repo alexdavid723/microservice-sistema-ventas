@@ -1,6 +1,6 @@
 spring:
   application:
-    name: Admin-Service
+    name: service-admin
   profiles:
     active: development
   config:
